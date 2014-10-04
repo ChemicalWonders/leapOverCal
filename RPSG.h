@@ -107,6 +107,7 @@ void RPSG::first_game(){
 void RPSG::returning_to_main_menu(){
 	char yn = '0';
 	cout << "Would you like to play? (y/n): ";
+	cin.ignore();
 	cin >> yn;
 	if (yn == 'y'){
 		rollCPU_number();

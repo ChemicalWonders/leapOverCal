@@ -19,12 +19,36 @@ void clearScreen() {
     cout << endl;
 }
 
+void drawTitle(){
+	clearScreen();
+    std::cout << "Welcome to Minigame mania, powered with Leap Motion!\n";
+    std::cout << "Created by Kevin from UC Riverside completely in C++\n";
+    std::cout << "Please wait for the leap motion to connect before starting the game. \nText will say 'connected'\n";
+    std::cout << "To start the game, press ENTER\n";
+    std::cin.get(); // Waits for Enter in order to start going
+}
+
+void drawMenu() {
+    clearScreen();
+    std::cout << "Point a number for the mission you want to take. \nPlease wait up to half a second for the leap motion to recognize your finger.\n";
+	std::cout << "1. Delivery of groceries to Mother. \n";
+	std::cout << "2. Complete a quest with Dora the Explorer. \n";
+	std::cout << "3. Battle the dragon in an epic battle of Rock, Paper, Scissors. \n";
+	std::cout << "4. Exit the game. \n";
+	std::cout << "Choose. Choose now: ";
+	std::cout << std::endl; //Extra Space for clarity.
+    cout << endl;
+}
+
+
 void motherGame(){
-	std::cout << "Hello. This is mother.\n";
+	std::cout << "Hello? Are you done grocery shopping yet? I need to have my butter and cream to cook!\n";
+	std::cin.get();
 }
 
 void doraGame(){
 	std::cout << "Time to help Dora the Explorer with a little project.\n";
+	std::cin.get();
 
 }
 
@@ -49,58 +73,49 @@ void SampleListener::onConnect(const Controller& controller) {
 
 void SampleListener::onFrame(const Controller& controller) {
 
-
-    Frame frame = controller.frame();
-    Finger finger = frame.finger(frame.id());
-    FingerList fingers = frame.fingers();
+    //Frame frame = controller.frame();
+    //Finger finger = frame.finger(frame.id());
+    //FingerList fingers = frame.fingers();
 	//int fingerCount = fingers.extended().count();
 	//std::cout << fingerCount << std::endl;
 }
 
-void choices (int number){
+void choices (){
 
 	Controller controller;
 	SampleListener listener;
-
-	std::cout << "Point a number for the mission you want to take. \n";
-	std::cout << "1. Delivery of groceries to Mother. \n";
-	std::cout << "2. Complete a quest with Dora the Explorer. \n";
-	std::cout << "3. Battle the dragon in an epic battle of Rock, Paper, Scissors. \n";
-	std::cout << "4. Exit the game. \n";
-	std::cout << "Choose. Choose now: ";
-	std::cout << std::endl; //Extra Space for clarity.
 
 	Frame frame = controller.frame();
     Finger finger = frame.finger(frame.id());
     FingerList fingers = frame.fingers();
 	int fingerCount = fingers.extended().count();
+	
+	drawMenu();
 
-	if (number == 1){
+	while (!cin.get()){
+		std::cout << fingerCount << std::endl;
+	}
+
+	if (fingerCount == 1){
 		clearScreen();
 		motherGame();
 	}
-	else if (number == 2){
+	else if (fingerCount == 2){
 		clearScreen();
 		doraGame();
 	}
-	else if (number == 3){
+	else if (fingerCount == 3){
 		clearScreen();
 		rockPaperScissors();
 	}
-	else if (number == 4){
+	else if (fingerCount == 4){
 		std::cout << "Fine. Goodbye. \n";
 		exit(1);
 	}
 	else{
-		clearScreen();
 		std::cout << "You have choosen something invalid. Pick a different number.\n";
-		frame = controller.frame();
-    	finger = frame.finger(frame.id());
-    	fingers = frame.fingers();
-		fingerCount = fingers.extended().count();
-		std::cout << fingerCount << std::endl;
 	}
-	choices(fingerCount);
+	choices();
 }
 
 int main(int argc, char** argv) {
@@ -110,15 +125,13 @@ int main(int argc, char** argv) {
 	SampleListener listener;
 	Controller controller;
 
-	Frame frame = controller.frame();
-    Finger finger = frame.finger(frame.id());
-    FingerList fingers = frame.fingers();
-
     controller.addListener(listener);
-	int fingerCount = 0;
+
+	// Creates the title once.
+	drawTitle(); 
 
 	// Code for the game menu
-	choices(fingerCount);
+	choices();
 
     // Remove the sample listener when done
     controller.removeListener(listener); 
