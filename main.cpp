@@ -55,13 +55,10 @@ void SampleListener::onFrame(const Controller& controller) {
 
     Frame frame = controller.frame();
     Finger finger = frame.finger(frame.id());
-    Finger::Type fingerType = finger.type();
-
-    std::cout << fingerType << std::endl;
-
-
-
-	//int fingercounter = fingers.count();
+    FingerList fingers = frame.fingers();
+    //Finger::Type fingerType = finger.type();
+	int fingercounter = fingers.count();
+	std::cout << fingercounter << std::endl;
 }
 
 int64_t lastFrameID = 0;
@@ -99,12 +96,13 @@ int main(int argc, char** argv) {
 	
 	SampleListener listener;
 	Controller controller;
+	RPSG rpsg;
 
 	controller.addListener(listener);
 	Frame current = controller.frame();
 	FingerList allfingers = current.fingers();
 
-	RPSG::first_game();
+	rpsg.first_game();
 
 	// Code for the game menu
 
