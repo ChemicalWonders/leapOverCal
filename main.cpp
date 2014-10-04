@@ -1,6 +1,7 @@
 #include <iostream>
+#include <string>
 #include "Leap.h"
-#include "LeapMath.h"
+#include "./RPSG.h"
 
 using namespace Leap;
 
@@ -39,10 +40,79 @@ void choices (int number){
 	}
 }
 
-int main(){
+class SampleListener : public Listener {
+    public:
+    virtual void onConnect(const Controller&);
+    virtual void onFrame(const Controller&);
+};
 
-	int fingerCount = 0;
+void SampleListener::onConnect(const Controller& controller) {
+    std::cout << "Connected" << std::endl;
+}
 
+void SampleListener::onFrame(const Controller& controller) {
+
+
+    Frame frame = controller.frame();
+    Finger finger = frame.finger(frame.id());
+    Finger::Type fingerType = finger.type();
+
+    std::cout << fingerType << std::endl;
+
+
+
+	//int fingercounter = fingers.count();
+}
+
+int64_t lastFrameID = 0;
+
+void processFrame( Frame frame )
+{
+    if( frame.id() == lastFrameID ) return;
+    //...
+    lastFrameID = frame.id();
+}
+
+int64_t lastProcessedFrameID = 0;
+
+void nextFrame( Controller controller )
+{
+    int64_t currentID = controller.frame().id();
+    for( int history = 0; history < currentID - lastProcessedFrameID; history++)
+    {
+        processFrame( controller.frame(history) );
+    }
+    lastProcessedFrameID = currentID;
+}
+
+void processNextFrame( Leap::Frame frame )
+{
+    if( frame.isValid() )
+    {
+        //...
+    }
+}
+
+int main(int argc, char** argv) {
+
+	srand(time(NULL));
+	
+	SampleListener listener;
+	Controller controller;
+
+	controller.addListener(listener);
+	Frame current = controller.frame();
+	FingerList allfingers = current.fingers();
+
+	RPSG::first_game();
+
+	// Code for the game menu
+
+	/*for (int f = 0; f < current.fingers().count(); f++) {
+        std::cout << current.fingers()[f] << std::endl;
+        //fingerCount = controller.fingers().count();
+        //std::cout << fingerCount;
+    }
 	while (fingerCount != 4){
 
 		std::cout << "Point a number for the mission you want to take. \n";
@@ -53,11 +123,14 @@ int main(){
 
 		std::cout << "Choose. Choose now: ";
 
-		std::cin >> fingerCount;
+		std::cout << std::endl; //Extra Space for clarity.
+
+		choices(fingerCounter);
 		std::cout << std::endl;
-		choices(fingerCount);
-		std::cout << std::endl;
-	}
+	}*/
+
+    // Remove the sample listener when done
+    controller.removeListener(listener);
 
 	return 0;
 
