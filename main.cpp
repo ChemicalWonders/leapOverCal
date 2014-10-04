@@ -15,29 +15,12 @@ void doraGame(){
 }
 
 void rockPaperScissors(){
-	std::cout << "Time to battle the dragon, are you ready?";
-}
+	RPSG rpsg;
 
-void choices (int number){
-	if (number == 1){
-		motherGame();
-	}
-	else if (number == 2){
-		doraGame();
-	}
-	else if (number == 3){
-		rockPaperScissors();
-	}
-	else if (number == 4){
-		std::cout << "Fine. Goodbye. \n";
-		return;
-	}
-	else{
-		std::cout << "You have choosen something invalid. Pick a different number.";
-		std::cin >> number;
-		std::cout << std::endl;
-		choices(number);
-	}
+	std::cout << "Time to battle the dragon, are you ready? Press Enter to continue.";
+	std::cin.get();
+
+	rpsg.first_game();
 }
 
 class SampleListener : public Listener {
@@ -56,39 +39,41 @@ void SampleListener::onFrame(const Controller& controller) {
     Frame frame = controller.frame();
     Finger finger = frame.finger(frame.id());
     FingerList fingers = frame.fingers();
-    //Finger::Type fingerType = finger.type();
-	int fingercounter = fingers.count();
-	std::cout << fingercounter << std::endl;
+	//mint fingerCount = fingers.extended().count();
+	//std::cout << fingerCount << std::endl;
 }
 
-int64_t lastFrameID = 0;
+void choices (int number){
 
-void processFrame( Frame frame )
-{
-    if( frame.id() == lastFrameID ) return;
-    //...
-    lastFrameID = frame.id();
+	SampleListener listener;
+	Controller controller;
+
+	if (number == 1){
+		motherGame();
+	}
+	else if (number == 2){
+		doraGame();
+	}
+	else if (number == 3){
+		rockPaperScissors();
+	}
+	else if (number == 4){
+		std::cout << "Fine. Goodbye. \n";
+		return;
+	}
+	else{
+		std::cout << "You have choosen something invalid. Pick a different number.";
+		Frame frame = controller.frame();
+    	Finger finger = frame.finger(frame.id());
+    	FingerList fingers = frame.fingers();
+
+    	controller.addListener(listener);
+		int fingerCount = fingers.extended().count();
+
+		choices(fingerCount);
+	}
 }
 
-int64_t lastProcessedFrameID = 0;
-
-void nextFrame( Controller controller )
-{
-    int64_t currentID = controller.frame().id();
-    for( int history = 0; history < currentID - lastProcessedFrameID; history++)
-    {
-        processFrame( controller.frame(history) );
-    }
-    lastProcessedFrameID = currentID;
-}
-
-void processNextFrame( Leap::Frame frame )
-{
-    if( frame.isValid() )
-    {
-        //...
-    }
-}
 
 int main(int argc, char** argv) {
 
@@ -96,21 +81,16 @@ int main(int argc, char** argv) {
 	
 	SampleListener listener;
 	Controller controller;
-	RPSG rpsg;
 
-	controller.addListener(listener);
-	Frame current = controller.frame();
-	FingerList allfingers = current.fingers();
+	Frame frame = controller.frame();
+    Finger finger = frame.finger(frame.id());
+    FingerList fingers = frame.fingers();
 
-	rpsg.first_game();
+    controller.addListener(listener);
+	int fingerCount = fingers.extended().count();
 
 	// Code for the game menu
 
-	/*for (int f = 0; f < current.fingers().count(); f++) {
-        std::cout << current.fingers()[f] << std::endl;
-        //fingerCount = controller.fingers().count();
-        //std::cout << fingerCount;
-    }
 	while (fingerCount != 4){
 
 		std::cout << "Point a number for the mission you want to take. \n";
@@ -123,9 +103,10 @@ int main(int argc, char** argv) {
 
 		std::cout << std::endl; //Extra Space for clarity.
 
-		choices(fingerCounter);
+		
+		choices(fingerCount);
 		std::cout << std::endl;
-	}*/
+	}
 
     // Remove the sample listener when done
     controller.removeListener(listener);
