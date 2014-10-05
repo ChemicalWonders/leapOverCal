@@ -16,31 +16,18 @@ class DoraGame {
 		int dice_roll; //Number of rooms that the person can get into. Max is 5 so dice roll is from 1 to 5
 		char direction; // Direction that the person want to go into.
 
-		human person;
-
-		//Name of monsters that will appear.
-		string monster_name; 
-		string monster_name_2;
-		string monster_name_3;
-
-		// Name of final boss.
-		string boss; 
-
 	public:
 		//Blank Constructor
 		DoraGame();
 
-		//Destructor
-		~DoraGame();
-
 		// Encounters a monster, can do several actions inside the room for points or run away, and lose points.
-		int monster_room();
+		int monster_room(human &, monster &);
 
 		//Can get into this room and heal up. If he wants more hp, you can use gold to buy some more HP. Cannot over buy HP.
-		int heal_room();
+		int heal_room(human &);
 
 		//Depends on the person's luck stat. If luck is very high, then positive stuff can happen.
-		int mystery_room();
+		int mystery_room(human &, monster &, monster &);
 
 		//Needs this function to roll the dice.
 		int dice_rolling();
@@ -50,10 +37,8 @@ class DoraGame {
 
 		// Encounters the boss. Will be able to do three different actions. 
 		//Turn based, but the amount of turns the user has depends on the person's luck.
-		int boss_room();
+		int boss_room(human &, monster &);
 
-		//Name the monsters that you will fight. Will name 3 monsters.
-		string nameMonster();
 
 		//Name the boss that the person will fight.
 		string nameBoss();
@@ -61,17 +46,20 @@ class DoraGame {
 		//Story script. This is the main flow of the actual story.
 		void story();
 
+		//Number of enemies that you have killed in a row. Gets to reset to 0 when you run away, or die.
+		double kill_streak();
+
+		//Random double value between 0 and 1 to help determine if your attack will hit or not.
+		double hit_accuracy();
+
+
+
 
 };
 
 DoraGame::DoraGame()
-: dice_roll(0), direction('M'), human(), monster_name("A"), monster_name_2("B"), monster_name_3("C"), boss("dad")
+: dice_roll(0), direction('M'), monster_name("A"), monster_name_2("B"), monster_name_3("C"), boss("dad")
 {}
-
-~DoraGame()
-{
-	delete DoraGame;
-}
 
 int DoraGame::monster_room(){
 	int number = rand() % 3 + 1;
@@ -98,13 +86,13 @@ int DoraGame::monster_room(){
 	cin >> choice;
 
 	if (choice == 1 ){
-		smack();
+		//smack();
 	}
 	else if (choice == 2){
-		useHP();
+		//useHP();
 	}
 	else if (choice == 3){
-		runAway();
+		//runAway();
 	}
 
 }

@@ -10,7 +10,7 @@ class monster{
 	private:
 		int HP; //Monster HP levels
 		int ATK; //Monster ATK power
-		int level; //Monster level
+		int LV; //Monster level
 		string name; //Monster name
 
 	public:
@@ -35,20 +35,20 @@ class monster{
 };
 
 monster::monster()
-: HP(100), ATK(10), level(1), name("Aaron")
+: HP(100), ATK(10), LV(1), name("Aaron")
 {}
 
 monster::monster(int hplevel, int atklevel, int levelvalue, string nameValue)
-: HP(hplevel), ATK(atklevel), level(levelvalue), nameValue(name)
+: HP(hplevel), ATK(atklevel), LV(levelvalue), name(nameValue)
 {}
 
 int monster::level(){
-	return monster.level;
+	return LV;
 }
 
 int monster::monster_hits(){
 	int damage = 0;
-	damage = level*ATK + 5;
+	damage = LV*ATK + 5;
 
 	return damage;
 }
@@ -58,7 +58,7 @@ void monster::nameMonster(string nameV){
 }
 
 string monster::monsterName(){
-	return monster.name;
+	return name;
 }
 
 #endif

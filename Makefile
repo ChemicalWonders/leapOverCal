@@ -12,7 +12,7 @@ else
   LEAP_LIBRARY := ./LeapSDK/lib/libLeap.dylib
 endif
 
-all: main.cpp rpsg.h
+all: main.cpp rpsg.h dora.h human.h monster.h
 	$(CXX) -Wall -g -I./LeapSDK/include main.cpp -o main $(LEAP_LIBRARY)
 ifeq ($(OS), Darwin)
 	install_name_tool -change @loader_path/libLeap.dylib ./LeapSDK/lib/libLeap.dylib main

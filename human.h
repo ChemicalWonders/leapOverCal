@@ -5,7 +5,6 @@
 #include <iostream>
 #include <string>
 #include "monster.h"
-#include "dora.h"
 
 using namespace std;
 
@@ -34,13 +33,13 @@ class human{
 		void print_luck();
 
 		//Determine the amount of game points.
-		void determine_gamepoints(double & gamePoints);
+		void determine_gamepoints(double & gamePoints, monster &);
 
 		//Print out game points.
 		void print_gamepoints();
 
 		//Determines the amount of points at the end of the game; bonus points.
-		void determine_bonuspoints(double & bonus);
+		//void determine_bonuspoints(double & bonus, DoraGame &);
 
 		//Returns the amount of damage done to monster
 		int damage_to_monster();
@@ -53,7 +52,7 @@ human::human()
 : hp(100), mp(100), gold_amount(1000), luck(100.0), game_points(0), bonus(0), nameOfCharacter("Ash"), level(1)
 {}
 
-human::human(double hpmax, double mpmax, int gold_amount_value, float luck_value, double game_points_value)
+human::human(double hpmax, double mpmax, int gold_amount_value, float luck_value, double game_points_value, int level_value)
 : hp(hpmax), mp(mpmax), gold_amount(gold_amount_value), luck(luck_value), game_points(game_points_value),
 bonus(0), nameOfCharacter("Ash"), level(level_value)
 {}
@@ -68,17 +67,18 @@ void human::print_luck(){
 	cout << "You're luck value is: " << luck << endl;
 }
 
-void human::determine_gamepoints(double & gamePoints){
-	gamePoints = gamePoints + monster.level() * 0.5;
+void human::determine_gamepoints(double & gamePoints, monster & mon){
+	gamePoints = gamePoints + mon.level() * 0.5;
 }
 
 void human::print_gamepoints(){
 	cout << "You currently have " << game_points << " points.\n";
 }
 
-void human::determine_bonuspoints(double & bonus, DoraGame & doraGame){
-	bonus = (doraGame.kill_streak() * doraGame.hit_accuracy()) * 5;
-}
+/*
+void human::determine_bonuspoints(double & bonus, DoraGame & dora){
+	bonus = (dora.kill_streak() * dora.hit_accuracy()) * 5;
+}*/
 
 int human::damage_to_monster(){
 	int damage = 0;
