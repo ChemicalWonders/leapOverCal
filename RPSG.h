@@ -91,7 +91,9 @@ void RPSG::determine_human_number(){
 		cout << human_number;
 	}
 	else{
-		cout << "The Leap Motion did not identify your position. Please try again.\n";
+		cout << "The Leap Motion did not identify your position. Please try again.\nPress ENTER to continue.";
+		cin.get();
+		
 		determine_human_number();
 	}
 	return;
