@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
 #include "Leap.h"
-#include "./RPSG.h"
+#include "SampleListener.h"
+#include "RPSG.h"
 
 using namespace Leap;
 
@@ -59,25 +60,7 @@ void rockPaperScissors(){
 	std::cin.get();
 
 	rpsg.first_game();
-}
-
-class SampleListener : public Listener {
-    public:
-    virtual void onConnect(const Controller&);
-    virtual void onFrame(const Controller&);
-};
-
-void SampleListener::onConnect(const Controller& controller) {
-    std::cout << "Connected" << std::endl;
-}
-
-void SampleListener::onFrame(const Controller& controller) {
-
-    //Frame frame = controller.frame();
-    //Finger finger = frame.finger(frame.id());
-    //FingerList fingers = frame.fingers();
-	//int fingerCount = fingers.extended().count();
-	//std::cout << fingerCount << std::endl;
+	return;
 }
 
 void choices (){
@@ -93,6 +76,7 @@ void choices (){
 	drawMenu();
 
 	while (!cin.get()){
+		fingerCount = fingers.extended().count();
 		std::cout << fingerCount << std::endl;
 	}
 
@@ -107,6 +91,7 @@ void choices (){
 	else if (fingerCount == 3){
 		clearScreen();
 		rockPaperScissors();
+		cin.ignore();
 	}
 	else if (fingerCount == 4){
 		std::cout << "Fine. Goodbye. \n";

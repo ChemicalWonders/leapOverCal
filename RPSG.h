@@ -4,12 +4,24 @@
 #include <iostream>
 #include <string>
 #include <stdlib.h>
-#include <time.h>
-
+#include "Leap.h"
+#include "SampleListener.h"
 
 using namespace std;
 
+const bool CLEAR_SCREEN_RPSG = true;
 
+//@brief Utilizes an escape character sequence to clear the screen.
+void clearScreenRPSG() {
+	cout << endl;
+
+	if (CLEAR_SCREEN_RPSG)
+	{
+		cout << "\033c" << endl;
+    }
+
+    cout << endl;
+}
 
 //Rock Paper Scissors File for the Leap Motion Game
 
@@ -43,11 +55,54 @@ void RPSG::rollCPU_number(){
 
 void RPSG::determine_human_number(){
 	//TODO with Leap Motion
+	//Leap Motion Code
 
+	Controller controller;
+	SampleListener listener;
+
+	Frame frame = controller.frame();
+    Finger finger = frame.finger(frame.id());
+    FingerList fingers = frame.fingers();
+	int fingerCount = fingers.extended().count();
+
+	clearScreenRPSG();
+
+	cout << "Extend your fingers in Rock, Paper, Scissors format.\n";
+	cout << "0 fingers for Rock, 5 fingers for Paper, and 2 fingers for scissors!\n";
+	cout << "Press ENTER when you have decided. Please wait up to 1 second for the Leap Motion to detect your hands.\n";
+
+	while (!cin.get()){
+		fingerCount = fingers.extended().count();
+		//std::cout << fingerCount << std::endl;
+	}
+
+	if (fingerCount == 0){
+		human_number = 1;
+		cout << human_number;
+	}
+	else if (fingerCount == 5)
+	{
+		human_number = 2;
+		cout << human_number;
+
+	}
+	else if (fingerCount == 2){
+		human_number = 3;
+		cout << human_number;
+	}
+	else{
+		cout << "The Leap Motion did not identify your position. Please try again.\n";
+		determine_human_number();
+	}
+	return;
+
+	//Entering in numbers code. Remove the comments on this portion if you want to play with the numbers instead.
+	/*
 	int number = 0;
 	cout << "pick a number\n";
 	cin >> number;
 	human_number = number;
+	*/
 }
 
 void RPSG::win_or_loss(){
@@ -107,16 +162,12 @@ void RPSG::first_game(){
 void RPSG::returning_to_main_menu(){
 	char yn = '0';
 	cout << "Would you like to play? (y/n): ";
-	cin.ignore();
 	cin >> yn;
-	if (yn == 'y'){
-		rollCPU_number();
-		determine_human_number();
-		win_or_loss();
+
+	if(yn != 'n'){
+		first_game();
 	}
-	else if (yn == 'n'){
-		return;
-	}
+	return;
 }
 
 

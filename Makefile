@@ -12,11 +12,13 @@ else
   LEAP_LIBRARY := ./LeapSDK/lib/libLeap.dylib
 endif
 
-Main: main.cpp
+all: main.cpp rpsg.h
 	$(CXX) -Wall -g -I./LeapSDK/include main.cpp -o main $(LEAP_LIBRARY)
 ifeq ($(OS), Darwin)
 	install_name_tool -change @loader_path/libLeap.dylib ./LeapSDK/lib/libLeap.dylib main
 endif
+
+
 
 clean:
 	rm -rf main main.dSYM
