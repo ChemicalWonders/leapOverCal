@@ -11,12 +11,10 @@ using namespace std;
 class human{
 	private:
 		int hp; // Health Points
-		int mp; // Mana Points
+		int hpMAX;
 		int level; //What level you are
-		int gold_amount; // amount of gold that the character has on hand.
-		float luck; // Amount of luck that the person has. Will change from room to room based on algorithm.
+		int luck; // Amount of luck that the person has. Will change from room to room based on algorithm.
 		double game_points; // Game Score Points
-		double bonus; // Bonus points calculated at the end, can lose points based on Algorithm.
 		string nameOfCharacter;	// Name of the person
 
 	public:
@@ -24,7 +22,13 @@ class human{
 		human();
 
 		// Custom Constructor
-		human(double hpmax, double mpmax, int gold_amount_value, float luck_value, double game_points_value, int level_value);
+		human(int hpmax, int hpMAXV, int level_value, double game_points_value );
+
+		int HumanHP();
+
+		int HumanMaxHP();
+
+		void HPvalue(int);
 
 		//Determines the amount of luck that the person has. Will change from room to room.
 		void determine_luck();
@@ -32,14 +36,13 @@ class human{
 		//Print out luck value.
 		void print_luck();
 
+		int luckpls();
+
 		//Determine the amount of game points.
 		void determine_gamepoints(double & gamePoints, monster &);
 
 		//Print out game points.
 		void print_gamepoints();
-
-		//Determines the amount of points at the end of the game; bonus points.
-		//void determine_bonuspoints(double & bonus, DoraGame &);
 
 		//Returns the amount of damage done to monster
 		int damage_to_monster();
@@ -49,16 +52,30 @@ class human{
 };
 
 human::human()
-: hp(100), mp(100), gold_amount(1000), luck(100.0), game_points(0), bonus(0), nameOfCharacter("Ash"), level(1)
-{}
+: hp(100), hpMAX(100), level(1), game_points(0), nameOfCharacter("Ash")
+{
+	determine_luck();
+}
 
-human::human(double hpmax, double mpmax, int gold_amount_value, float luck_value, double game_points_value, int level_value)
-: hp(hpmax), mp(mpmax), gold_amount(gold_amount_value), luck(luck_value), game_points(game_points_value),
-bonus(0), nameOfCharacter("Ash"), level(level_value)
-{}
+human::human(int hpmax, int hpMAXV, int level_value, double game_points_value)
+: hp(hpmax), hpMAX(hpMAXV), level(level_value), game_points(game_points_value), nameOfCharacter("Ash")
+{
+	determine_luck();
+}
+
+int human::HumanHP(){
+	return hp;
+}
+int human::HumanMaxHP(){
+	return hpMAX;
+}
+
+void human::HPvalue(int value){
+	hp = hp + value;
+}
 
 void human::determine_luck(){
-	float luckValue = rand() % 100 + 1;
+	int luckValue = rand() % 100 + 1;
 	luckValue = luckValue / 5;
 	luck = luckValue;
 }
@@ -75,14 +92,9 @@ void human::print_gamepoints(){
 	cout << "You currently have " << game_points << " points.\n";
 }
 
-/*
-void human::determine_bonuspoints(double & bonus, DoraGame & dora){
-	bonus = (dora.kill_streak() * dora.hit_accuracy()) * 5;
-}*/
-
 int human::damage_to_monster(){
 	int damage = 0;
-	damage = (level * 15) / luck;
+	damage = -(level * 15) / luck;
 
 	return damage;
 }
@@ -94,6 +106,10 @@ void human::nameCharacter(){
 	cin >> name;
 
 	nameOfCharacter = name; //Renames the character.
+}
+
+int human::luckpls(){
+	return luck;
 }
 
 #endif

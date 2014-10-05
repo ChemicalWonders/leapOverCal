@@ -3,6 +3,7 @@
 #include "Leap.h"
 #include "SampleListener.h"
 #include "RPSG.h"
+#include "dora.h"
 
 using namespace Leap;
 
@@ -48,8 +49,13 @@ void motherGame(){
 }
 
 void doraGame(){
+	DoraGame dora;
+
 	std::cout << "Time to help Dora the Explorer with a little project.\n";
 	std::cin.get();
+
+	dora.story();
+	return;
 
 }
 
