@@ -92,7 +92,7 @@ void choices (){
 
 	while (!cin.get()){
 		fingerCount = fingers.extended().count();
-		std::cout << fingerCount << std::endl;
+		//std::cout << fingerCount << std::endl;
 	}
 
 	if (fingerCount == 1){

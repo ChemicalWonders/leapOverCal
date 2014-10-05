@@ -30,6 +30,8 @@ class RPSG {
 	private:
 		int CPU_number;
 		int human_number;
+		int win_tracking;
+
 	public:
 		RPSG();
 		RPSG(int, int);
@@ -41,16 +43,18 @@ class RPSG {
 };
 
 RPSG::RPSG()
-: CPU_number(0), human_number(0)
+: CPU_number(0), human_number(0), win_tracking(0)
 {}
 
 RPSG::RPSG(int cpu, int human)
-: CPU_number(cpu), human_number(human)
+: CPU_number(cpu), human_number(human), win_tracking(0)
 {}
 
 void RPSG::rollCPU_number(){
 	int number = rand() % 3 + 1;
 	CPU_number = number;
+
+	cout << CPU_number << " is the CPU_number. \n";
 }
 
 void RPSG::determine_human_number(){
@@ -69,6 +73,7 @@ void RPSG::determine_human_number(){
 
 	cout << "Extend your fingers in Rock, Paper, Scissors format.\n";
 	cout << "0 fingers for Rock, 5 fingers for Paper, and 2 fingers for scissors!\n";
+	cout << "You have currently won " << win_tracking << " times. \n";
 	cout << "Press ENTER when you have decided. Please wait up to 1 second for the Leap Motion to detect your hands.\n";
 
 	while (!cin.get()){
@@ -78,22 +83,22 @@ void RPSG::determine_human_number(){
 
 	if (fingerCount == 0){
 		human_number = 1;
-		cout << human_number;
+		cout << "You have chosen Rock!\n";
 	}
 	else if (fingerCount == 5)
 	{
 		human_number = 2;
-		cout << human_number;
+		cout << "You have chosen Paper!\n";
 
 	}
 	else if (fingerCount == 2){
 		human_number = 3;
-		cout << human_number;
+		cout << "You have chosen Scissors!\n";
 	}
 	else{
 		cout << "The Leap Motion did not identify your position. Please try again.\nPress ENTER to continue.";
 		cin.get();
-		
+
 		determine_human_number();
 	}
 	return;
@@ -109,46 +114,54 @@ void RPSG::determine_human_number(){
 
 void RPSG::win_or_loss(){
 
+	rollCPU_number();
+
 	// Number 1 is Rock, Number 2 is Paper, Number 3 is Scissors.
 	if (CPU_number == 1){
 		if (human_number == 1){
-			cout << "It's a tie." << endl;
+			cout << "The AI has chosen Rock as well! It's a tie.\n" << endl;
 			returning_to_main_menu();
 		}
 		else if (human_number == 2){
-			cout << "You lost. :(" << endl;
+			cout << "The AI has chosen Rock. I think Rock beats Scissors, so you won! \n" << endl;
+			win_tracking++;
 			returning_to_main_menu();
 		}
 		else if (human_number == 3){
-			cout << "You won!" << endl;
+			cout << "The AI has chosen Rock. You lost. :(\n" << endl;
+			
 			returning_to_main_menu();
 		}
 	}
 	else if (CPU_number == 2){
 		if (human_number == 2){
-			cout << "It's a tie." << endl;
+			cout << "The AI has chosen Paper. It's a tie.\n" << endl;
 			returning_to_main_menu();
 		}
 		else if (human_number == 3){
-			cout << "You lost. :(" << endl;
+			cout << "The AI has chosen Paper. You won!\n" << endl;
+			win_tracking++;
 			returning_to_main_menu();
 		}
 		else if (human_number == 1){
-			cout << "You won!" << endl;
+			cout << "The AI has chosen Paper. You lost cause you chose rock.\n" << endl;
+			
 			returning_to_main_menu();
 		}
 	}
 	else if (CPU_number == 3){
 		if (human_number == 3){
-			cout << "It's a tie." << endl;
+			cout << "The AI has chosen Scissors. It's a tie.\n" << endl;
 			returning_to_main_menu();
 		}
 		else if (human_number == 1){
-			cout << "You lost. :(" << endl;
+			cout << "The AI has chosen Scissors. You won!\n" << endl;
+			win_tracking++;
 			returning_to_main_menu();
 		}
 		else if (human_number == 2){
-			cout << "You won!" << endl;
+			cout << "The AI has chosen Scissors. You lost.\n" << endl;
+			
 			returning_to_main_menu();
 		}
 	}
