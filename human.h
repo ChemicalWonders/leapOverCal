@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <string>
-#include "monster.h"
+//#include "monster.h"
 
 using namespace std;
 
@@ -38,7 +38,7 @@ class human{
 		void print_gamepoints();
 
 		//Determines the amount of points at the end of the game; bonus points.
-		void determine_bonuspoints(double & bonus);
+		//void determine_bonuspoints(double & bonus);
 
 		//Used in the beginning to name your character.
 		void nameCharacter();
@@ -54,7 +54,7 @@ human::human(double hpmax, double mpmax, int gold_amount_value, float luck_value
 
 void human::determine_luck(){
 	float luckValue = rand() % 100 + 1;
-	luckValue = luckValue % 5;
+	luckValue = luckValue / 5;
 	luck = luckValue;
 }
 
@@ -63,17 +63,17 @@ void human::print_luck(){
 }
 
 void human::determine_gamepoints(double & gamePoints){
-	gamePoints = gamePoints + monster.level() * 0.5;
+	//gamePoints = gamePoints + monster.level() * 0.5;
 }
 
 void human::print_gamepoints(){
 	cout << "You currently have " << game_points << " points.\n";
 }
 
-void human::determine_bonuspoints(double & bonus){
+/*void human::determine_bonuspoints(double & bonus){
 	bonus = (monster.kill_streak() * monster.hit_accuracy()) * 5;
 }
-
+*/
 void human::nameCharacter(){
 	string name;
 
@@ -82,3 +82,5 @@ void human::nameCharacter(){
 
 	nameOfCharacter = name; //Renames the character.
 }
+
+#endif
