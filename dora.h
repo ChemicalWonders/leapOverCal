@@ -1,6 +1,10 @@
 #ifndef __DORA_H__
 #define __DORA_H__
 
+#include <iostream>
+#include <string>
+#include "human.h"
+
 using namespace std;
 
 //Exploring Maze Game using the Leap Motion
@@ -9,15 +13,9 @@ class DoraGame {
 
 	private:
 		int dice_roll; //Number of rooms that the person can get into. Max is 5 so dice roll is from 1 to 5
-		char direction;
-		double hp; // Health Points
-		double mp; // Mana Points
-		int gold_amount; // amount of gold that the character has on hand.
-		float luck; // Amount of luck that the person has. Will change from room to room based on algorithm.
-		double game_points; // Game Score Points
-		double bonus; // Bonus points calculated at the end, can lose points based on Algorithm.
+		char direction; // Direction that the person want to go into.
 
-		string nameOfCharacter;
+		human person;
 
 		//Name of monsters that will appear.
 		string monster_name; 
@@ -28,8 +26,14 @@ class DoraGame {
 		string boss; 
 
 	public:
-		//Blank Construct
+		//Blank Constructor
 		DoraGame();
+
+		//Only other Contructor
+		DoraGame(double hp, double mp, int gold_amount, float luck, double game_points);
+
+		//Destructor
+		~DoraGame();
 
 		// Encounters a monster, can do several actions inside the room for points or run away, and lose points.
 		int monster_room();
@@ -50,12 +54,6 @@ class DoraGame {
 		//Turn based, but the amount of turns the user has depends on the person's luck.
 		int boss_room();
 
-		//Determines the amount of luck that the person has. Will change from room to room.
-		float determine_luck();
-
-		//Used in the beginning to name your character.
-		string nameCharacter();
-
 		//Name the monsters that you will fight. Will name 3 monsters.
 		string nameMonster();
 
@@ -68,7 +66,50 @@ class DoraGame {
 
 };
 
+DoraGame::DoraGame()
+: dice_roll(0), direction('M'), human(), monster_name("A"), monster_name_2("B"), monster_name_3("C"), boss("dad")
+{}
 
+~DoraGame()
+{
+	delete DoraGame;
+}
+
+int DoraGame::monster_room(){
+	int number = rand() % 3 + 1;
+	string monster;
+
+	int choice = 0;
+
+	if (number == 1){
+		monster = monster_name;
+	}
+	else if (number == 2) {
+		monster = monster_name_2; 
+	}
+	else if (number == 3) {
+		monster = monster_name_3;
+	}
+
+	cout << "You have encountered a " << monster << " !\n";
+	cout << "You're given 3 options, what do you do?\n";
+	cout << "1. SMACK IT'S FACE.\n";
+	cout << "2. Use a health potion. \n";
+	cout << "3. Run away! It's too scary here.\n";
+
+	cin >> choice;
+
+	if (choice == 1 ){
+		smack();
+	}
+	else if (choice == 2){
+		useHP();
+	}
+	else if (choice == 3){
+		runAway();
+	}
+
+}
 
 
 
