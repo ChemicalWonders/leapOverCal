@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "human.h"
+#include "monster.h"
 
 using namespace std;
 
@@ -28,9 +29,6 @@ class DoraGame {
 	public:
 		//Blank Constructor
 		DoraGame();
-
-		//Only other Contructor
-		DoraGame(double hp, double mp, int gold_amount, float luck, double game_points);
 
 		//Destructor
 		~DoraGame();
