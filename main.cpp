@@ -4,6 +4,7 @@
 #include "SampleListener.h"
 #include "RPSG.h"
 #include "dora.h"
+#include "datingsims.h"
 
 using namespace Leap;
 
@@ -25,6 +26,7 @@ void drawTitle(){
 	clearScreen();
     std::cout << "Welcome to Minigame mania, powered with Leap Motion!\n";
     std::cout << "Created by Kevin from UC Riverside completely in C++\n";
+    std::cout << "Tim from USC collaborated!\n";
     std::cout << "Please wait for the leap motion to connect before starting the game. \nText will say 'connected'\n";
     std::cout << "To start the game, press ENTER\n";
     std::cin.get(); // Waits for Enter in order to start going
@@ -33,7 +35,7 @@ void drawTitle(){
 void drawMenu() {
     clearScreen();
     std::cout << "Point a number for the mission you want to take. \nPlease wait up to half a second for the leap motion to recognize your finger.\n";
-	std::cout << "1. Delivery of groceries to Mother. \n";
+	std::cout << "1. Mother set you up on a date with Rashida Jones! #DatingSim. \n";
 	std::cout << "2. Complete a quest with Dora the Explorer. \n";
 	std::cout << "3. Battle the dragon in an epic battle of Rock, Paper, Scissors. \n";
 	std::cout << "4. Exit the game. \n";
@@ -44,8 +46,14 @@ void drawMenu() {
 
 
 void motherGame(){
-	std::cout << "Hello? Are you done grocery shopping yet? I need to have my butter and cream to cook!\n";
+	DatingSims dating;
+
+	std::cout << "I set you up on a date with Rashida Jones! She's waiting for you right now!\n";
 	std::cin.get();
+
+	dating.start_game();
+
+	return;
 }
 
 void doraGame(){
