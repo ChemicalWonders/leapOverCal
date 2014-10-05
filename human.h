@@ -30,6 +30,8 @@ class human{
 
 		void HPvalue(int);
 
+		void humanAddLV(int);
+
 		//Determines the amount of luck that the person has. Will change from room to room.
 		void determine_luck();
 
@@ -52,7 +54,7 @@ class human{
 };
 
 human::human()
-: hp(100), hpMAX(100), level(1), game_points(0), nameOfCharacter("Ash")
+: hp(300), hpMAX(501), level(5), game_points(0), nameOfCharacter("Ash")
 {
 	determine_luck();
 }
@@ -71,13 +73,23 @@ int human::HumanMaxHP(){
 }
 
 void human::HPvalue(int value){
-	hp = hp + value;
+	if (value + hp > hpMAX){
+		hp = hpMAX;
+	}
+	else{
+		hp = hp + value;
+	}
+}
+
+void human::humanAddLV(int lvl){
+	level = level + lvl;
 }
 
 void human::determine_luck(){
-	int luckValue = rand() % 100 + 1;
-	luckValue = luckValue / 5;
+	int luckValue = rand() % 5 + 1;
 	luck = luckValue;
+
+	//print_luck();
 }
 
 void human::print_luck(){
@@ -94,7 +106,10 @@ void human::print_gamepoints(){
 
 int human::damage_to_monster(){
 	int damage = 0;
-	damage = -(level * 15) / luck;
+	damage = -(luck * level + rand() % luck);
+	//cout << "Your damage amount was: " << damage << endl;
+	game_points += -damage;
+	//cout << "Your game_points amount is: " << game_points << endl;
 
 	return damage;
 }

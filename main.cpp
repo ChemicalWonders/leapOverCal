@@ -8,6 +8,7 @@
 
 using namespace Leap;
 
+
 const bool CLEAR_SCREEN = true;
 
 //@brief Utilizes an escape character sequence to clear the screen.
@@ -20,7 +21,7 @@ void clearScreen() {
     }
 
     cout << endl;
-}
+} 
 
 void drawTitle(){
 	clearScreen();
@@ -138,3 +139,35 @@ int main(int argc, char** argv) {
 	return 0;
 
 }
+
+
+/*
+// Test harness for dora.h
+
+int main(int argc, char** argv){
+	srand(time(NULL));
+
+	DoraGame dora;
+	monster mon;
+	monster mon2;
+	monster mon3;
+	human hum;
+
+	dora.story();
+	//dora.boss_room(hum, "helloWorld");
+	//dora.dice_rolling();
+	//dora.mystery_room(hum, mon, mon2, mon3);
+
+
+	return 0;
+}
+
+int main(int argc, char** argv){
+	srand(time(NULL));
+
+	DatingSims daters;
+
+	daters.end_game();
+
+	return 0;
+}*/

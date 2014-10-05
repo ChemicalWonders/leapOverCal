@@ -33,7 +33,6 @@ class DatingSims {
 		string restraunt;
 	public:
 		DatingSims();
-		DatingSims(int, int);
 		void roll_looks();
 		void dinner_date();
 		void dinner_continue();
@@ -48,13 +47,11 @@ DatingSims::DatingSims()
 : rashida_happiness(0), human_looks(0), restraunt("")
 {}
 
-DatingSims::DatingSims(int happy, int looks)
-: rashida_happiness(happy), human_looks(looks), restraunt("")
-{}
-
 void DatingSims::roll_looks() {
 	int number = rand() % 10+1;
 	human_looks = number;
+
+
 	cout << "On the scale from 1-10, you are a " << human_looks << ".\n";
 	if(human_looks > 6)
 	{
@@ -62,22 +59,28 @@ void DatingSims::roll_looks() {
 		cout << "You are a nice looking guy! Rashida's happiness grew by " << happinessGrowth << "!\n";
 		rashida_happiness += happinessGrowth;
 	}
+
+
 	else if(human_looks <= 6 && human_looks >= 4)
 	{
-		cout << "Because of your sub-par looks, Rashida's happiness has depleted to -10";
+		cout << "Because of your sub-par looks, Rashida's happiness has depleted to -10\n";
 		rashida_happiness -= 10;
 	}
+
+
 	else 
 	{
-		cout << "You are hideous. Rashida storms away...";
+		cout << "You are hideous. Rashida storms away...\n";
 		end_game();
 	}
-}
+}//
 
 
 void DatingSims::dinner_date(){
 	//TODO with Leap Motion
 	//Leap Motion Code
+
+	//THIS IS BROKEN
 
 	Controller controller;
 	SampleListener listener;
@@ -87,15 +90,13 @@ void DatingSims::dinner_date(){
     FingerList fingers = frame.fingers();
 	int fingerCount = fingers.extended().count();
 
-	clearScreenRPSG();
-
 	cout << "What star restraunt would you like to take her?\n";
 	cout << "Use ur hands to choose 1-5 stars\n";
 	cout << "Press ENTER when you have decided. Please wait up to 1 second for the Leap Motion to detect your hands.\n";
 
 	while (!cin.get()){
 		fingerCount = fingers.extended().count();
-		//std::cout << fingerCount << std::endl;
+		std::cout << fingerCount << std::endl;
 	}
 	if (fingerCount == 1){
 		rashida_happiness -= 10;
@@ -128,7 +129,7 @@ void DatingSims::dinner_date(){
 		cout << "The Leap Motion did not identify your position. Please try again.\n";
 		dinner_date();
 	}
-	check_happiness();
+
 	return;
 }
 
@@ -159,13 +160,24 @@ void DatingSims::start_game(){
 	cout << "First let's see if you were born with good looks or not..\n";
 	roll_looks();
 	dinner_date();
+	dinner_continue();
+	dinner_date();
+	dinner_date();
+	dinner_continue();
+	dinner_date();
+	dinner_date();
+	check_happiness();
 }
 
 void DatingSims::end_game(){
-
+	cout << "Rashida is very disappointed in you. It's time to find someone else to date.\n";
+	returning_to_main_menu();
 }
 
 void DatingSims::mission_accomplished() {
+
+	cout << "Rashida is very excited! You're thinking about asking her out, and she says 'YES!' \n";
+	returning_to_main_menu();
 
 }
 
@@ -179,6 +191,5 @@ void DatingSims::returning_to_main_menu(){
 	}
 	return;
 }
-
 
 #endif

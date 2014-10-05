@@ -26,6 +26,8 @@ class monster{
 		//Returns the amount of damage dealt to the person
 		int monster_hits();
 
+		int returnHP();
+
 		//Add or Subtract Damage from HP of monster
 		void damage(int );
 
@@ -49,16 +51,20 @@ int monster::level(){
 	return LV;
 }
 
+int monster::returnHP(){
+	return HP;
+}
+
 int monster::monster_hits(){
 	int damage = 0;
-	damage = LV*ATK + 5;
+	damage = -LV*ATK + 5;
 
 	return damage;
 }
 
 void monster::damage(int damageValue){
 	HP = HP + damageValue;
-	cout << "You dealt " << damageValue << " to " << name << " .\n";
+	cout << "You dealt " << damageValue << " to " << name << ".\n";
 }
 
 void monster::nameMonster(string nameV){
